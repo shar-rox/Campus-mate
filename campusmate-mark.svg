@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="CampusMate campus mark">
+  <rect x="1" y="1" width="62" height="62" rx="13" fill="#f1eee5"/>
+  <path d="M11 27.5 32 14l21 13.5" fill="none" stroke="#17483d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M16 28v21h32V28M25 49V36h14v13M20 33h3m18 0h3" fill="none" stroke="#17483d" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="32" cy="25" r="2.3" fill="#a36c38"/>
+  <path d="M32 21v-4" stroke="#a36c38" stroke-width="2" stroke-linecap="round"/>
+</svg>

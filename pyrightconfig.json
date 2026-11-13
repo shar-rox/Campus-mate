@@ -1,0 +1,13 @@
+{
+  "include": ["app.py", "run.py", "utils"],
+  "exclude": [".venv", "**/__pycache__"],
+  "pythonVersion": "3.12",
+  "venvPath": ".",
+  "venv": ".venv",
+  "executionEnvironments": [
+    {
+      "root": ".",
+      "extraPaths": ["."]
+    }
+  ]
+}

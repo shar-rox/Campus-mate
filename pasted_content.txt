@@ -1,0 +1,382 @@
+Here is a complete, ready-to-paste **Manus AI build brief** for your **AI Smart Campus Assistant**. It is designed for a clean 2-hour prototype with a strong live demo.
+
+## Project brief for Manus AI
+
+**Project title:** CampusMate — AI Smart Campus Assistant
+
+**One-line description:** Build a responsive web-based AI chat assistant that helps students instantly find information about classrooms, labs, events, campus facilities, and student services.
+
+**Goal:** Create a working prototype where a student types a natural-language question and receives an accurate, helpful answer based only on a predefined campus knowledge base.
+
+**Target users:** Students, visitors, and campus staff.
+
+**Core value:** Reduce time spent searching notice boards, asking staff, or navigating multiple pages for routine campus information.
+
+Campus assistants commonly answer questions on class schedules, library hours, dining, events, facilities, and administrative procedures; a retrieval-based chatbot over structured campus data is a proven, practical approach. [github](https://github.com/csmp2408/Smart-Campus-Assistant)
+
+## What to build
+
+Build a **single-page Streamlit web application** with:
+
+- A chat-style interface
+- A campus knowledge base stored in a JSON file
+- Natural-language question handling
+- Intent detection using keywords and optional LLM support
+- Answers for classrooms, labs, events, facilities, and services
+- Quick-action suggestion chips
+- A “not found” fallback that guides users to available categories
+- A clean, modern UI suitable for a project demonstration
+
+For the prototype, prioritize **fast, reliable, offline-capable keyword matching**. Add an LLM only if an API key is available; the app must still work without it.
+
+## Functional requirements
+
+The assistant must support these query categories:
+
+| Category | Example user query | Expected response |
+|---|---|---|
+| Classrooms | “Where is Room C-204?” | Building, floor, nearby landmark, current timetable if available |
+| Labs | “Is the AI Lab available now?” | Lab name, location, timings, capacity, booking/contact details |
+| Events | “What events are happening today?” | Event name, time, venue, organizer, registration link if present |
+| Facilities | “Where is the library?” | Location, timings, services, contact information |
+| Services | “How do I get a bonafide certificate?” | Steps, office location, documents needed, timing |
+| Contacts | “Who do I contact for hostel issues?” | Department, person/office, phone/email, working hours |
+| Navigation | “How do I reach the auditorium?” | Building, floor, landmarks, optional map link |
+| General fallback | “What is the admission fee?” | Politely state that this information is not in the prototype knowledge base |
+
+## Knowledge base design
+
+Create a file named `campus_data.json` with at least **25–35 records**.
+
+Use this structure:
+
+```json
+{
+  "classrooms": [
+    {
+      "id": "C204",
+      "name": "Classroom C-204",
+      "building": "Computer Science Block",
+      "floor": "2nd Floor",
+      "capacity": 60,
+      "facilities": ["Projector", "AC", "Wi-Fi"],
+      "timings": "9:00 AM - 5:00 PM",
+      "contact": "cs.office@college.edu"
+    }
+  ],
+  "labs": [
+    {
+      "id": "AI_LAB",
+      "name": "Artificial Intelligence Lab",
+      "building": "Computer Science Block",
+      "floor": "3rd Floor",
+      "room": "CS-301",
+      "capacity": 40,
+      "available_systems": 35,
+      "timings": "9:00 AM - 5:00 PM",
+      "booking": "Lab in-charge / CS department office",
+      "contact": "ai.lab@college.edu"
+    }
+  ],
+  "events": [
+    {
+      "id": "TECH_FEST",
+      "name": "TechNova 2026",
+      "date": "2026-11-20",
+      "time": "10:00 AM - 4:00 PM",
+      "venue": "Main Auditorium",
+      "organizer": "Computer Science Department",
+      "description": "Technical fest with coding, robotics, and project exhibition.",
+      "registration": "https://example.com/register"
+    }
+  ],
+  "facilities": [
+    {
+      "id": "LIBRARY",
+      "name": "Central Library",
+      "location": "Main Academic Block, Ground Floor",
+      "timings": "8:30 AM - 8:00 PM",
+      "services": ["Book issue", "Reading hall", "Digital resources", "Photocopy"],
+      "contact": "library@college.edu"
+    }
+  ],
+  "services": [
+    {
+      "id": "BONAFIDE",
+      "name": "Bonafide Certificate",
+      "office": "Academic Section",
+      "location": "Admin Block, Room A-12",
+      "steps": ["Fill request form", "Submit student ID", "Collect certificate after 2 working days"],
+      "documents": ["Student ID card", "Fee receipt"],
+      "timings": "10:00 AM - 4:00 PM",
+      "contact": "academic@college.edu"
+    }
+  ]
+}
+```
+
+Include realistic sample data for:
+
+- 8 classrooms
+- 6 labs
+- 6 events
+- 6 facilities
+- 8 student services
+- 5 department/contact records
+
+Use fictional but realistic college data so the demo looks complete.
+
+## Recommended architecture
+
+```text
+Student question
+      ↓
+Streamlit chat interface
+      ↓
+Query preprocessing
+      ↓
+Intent / category detection
+      ↓
+Keyword + fuzzy search over campus_data.json
+      ↓
+Relevant record selection
+      ↓
+Response formatter
+      ↓
+Answer displayed in chat
+```
+
+For a stronger version, use this RAG-style flow:
+
+```text
+Student question
+      ↓
+Embedding / semantic search
+      ↓
+Retrieve top campus records
+      ↓
+LLM generates grounded answer
+      ↓
+Answer with source/category shown
+```
+
+RAG systems retrieve relevant knowledge-base content and use it to generate an answer, which helps keep responses grounded in the provided campus data. [arxiv](https://arxiv.org/html/2501.13880)
+
+## Tech stack
+
+Use this simple stack:
+
+| Layer | Recommended tool | Why |
+|---|---|---|
+| Frontend | Streamlit | Fast chat UI, minimal coding |
+| Backend/logic | Python | Easy data handling and search |
+| Data | JSON | Easy to edit, demo, and extend |
+| Search | Python keyword matching + `difflib` | Works offline and is easy to explain |
+| Optional AI | Google Gemini API or OpenAI API | Natural-language responses |
+| Optional semantic search | Sentence Transformers + FAISS/ChromaDB | Better matching for varied questions |
+| Deployment | Streamlit Community Cloud or local run | Quick demonstration |
+
+A production-like campus assistant can use RAG with a vector database and LLM, but for a 2-hour prototype, structured JSON plus keyword/fuzzy search is the safest approach. [github](https://github.com/sizwinz/campus-assistant/blob/master/README.md)
+
+## UI requirements
+
+Create a clean, student-friendly interface:
+
+- College name and logo placeholder at the top
+- Title: **CampusMate — AI Smart Campus Assistant**
+- Chat window with user and assistant bubbles
+- Text input box: “Ask about classrooms, labs, events, facilities, or services…”
+- Send button
+- Quick chips:
+  - Find a classroom
+  - Lab availability
+  - Today’s events
+  - Library timings
+  - Campus services
+  - Important contacts
+- Sidebar with:
+  - About the project
+  - Supported query categories
+  - Sample questions
+  - Data source note
+- Dark/light mode optional
+- Mobile-responsive layout
+
+## Prompt for Manus AI
+
+Copy and paste this into Manus AI:
+
+```text
+Build a complete, working AI Smart Campus Assistant web application prototype called “CampusMate”.
+
+Use Python and Streamlit. Create a clean, modern, mobile-responsive chat interface.
+
+The assistant must help students with queries related to:
+1. Classrooms
+2. Labs
+3. Campus events
+4. Facilities such as library, canteen, sports, auditorium, health center
+5. Student services such as bonafide certificate, ID card, hostel, transport, fees, certificates
+6. Department/contact information
+7. Basic campus navigation
+
+Create a campus_data.json file with at least 30 realistic sample records across classrooms, labs, events, facilities, services, and contacts. Use fictional college details.
+
+Implement:
+- A chat interface with user and assistant message bubbles
+- A text input and send button
+- Quick-action buttons/chips for common queries
+- Keyword-based and fuzzy matching using Python
+- Category-aware responses
+- A fallback response when no matching record is found
+- Error handling
+- Session-based chat history
+- A sidebar explaining supported categories and showing sample questions
+
+The app must work fully offline without any API key. If an optional Gemini/OpenAI API key is provided through environment variables, use it to improve natural-language responses; otherwise, use rule-based responses.
+
+Do not hallucinate campus information. Answers must come only from campus_data.json.
+
+Suggested sample questions:
+- “Where is the AI Lab?”
+- “Which classrooms are free now?”
+- “What events are happening today?”
+- “When does the library close?”
+- “How do I apply for a bonafide certificate?”
+- “Where is the auditorium?”
+- “Who should I contact for hostel issues?”
+- “Show me available labs.”
+- “What facilities are available on campus?”
+
+Make the UI visually attractive with:
+- A professional color theme
+- Clear headings
+- Chat bubbles
+- Icons/emojis where suitable
+- Card-style responses showing location, timings, contact, and other details
+- A polished final prototype ready for demonstration
+
+Provide:
+1. Full project folder structure
+2. All required files and complete code
+3. campus_data.json with realistic sample data
+4. requirements.txt
+5. README.md with setup and run instructions
+6. A short demo script for presenting the project
+7. Suggestions for future improvements
+
+Keep the code clean, modular, well-commented, and easy to run locally.
+```
+
+## File structure
+
+Ask Manus to generate this structure:
+
+```text
+campusmate/
+│
+├── app.py
+├── campus_data.json
+├── requirements.txt
+├── README.md
+│
+├── utils/
+│   ├── search_engine.py
+│   ├── response_generator.py
+│   └── data_loader.py
+│
+└── assets/
+    └── logo.png
+```
+
+## Core logic
+
+### Query handling
+
+1. Convert the question to lowercase.
+2. Remove extra spaces and punctuation.
+3. Detect category using keywords:
+   - Classroom: “classroom”, “room”, “lecture”, “free room”
+   - Lab: “lab”, “laboratory”, “computer lab”, “AI lab”
+   - Event: “event”, “fest”, “seminar”, “workshop”, “today”
+   - Facility: “library”, “canteen”, “gym”, “auditorium”, “sports”
+   - Service: “bonafide”, “certificate”, “ID card”, “hostel”, “transport”, “fees”
+4. Search matching records using keyword overlap and fuzzy matching.
+5. Select the best record.
+6. Format a clear response.
+7. If confidence is low, show related options or a fallback message.
+
+### Example response
+
+**User:** “Where is the AI Lab?”
+
+**CampusMate:**  
+**Artificial Intelligence Lab** is located in the **Computer Science Block, 3rd Floor, Room CS-301**.  
+- Capacity: 40 students  
+- Available systems: 35  
+- Timings: 9:00 AM – 5:00 PM  
+- Booking: Contact the CS Department office  
+- Email: ai.lab@college.edu  
+
+## Demo preparation
+
+Prepare these five demo questions:
+
+1. “Where is the AI Lab?”
+2. “What events are happening today?”
+3. “When does the library close?”
+4. “How do I apply for a bonafide certificate?”
+5. “Show me available computer labs.”
+
+Also demonstrate the fallback:
+
+6. “What is the price of a flight to Delhi?”
+
+Expected response: “I can help with classrooms, labs, events, facilities, and campus services. Please try one of the suggested questions.”
+
+## Presentation script
+
+Use this 90-second explanation:
+
+> “Students often waste time searching for classrooms, labs, event details, and campus services. CampusMate solves this with an AI-powered chat assistant.  
+>   
+> A student can simply ask, ‘Where is the AI Lab?’ and the assistant instantly provides the location, timings, capacity, and contact details.  
+>   
+> It also answers questions about today’s events, library timings, available labs, and procedures for services such as bonafide certificates.  
+>   
+> The system uses a structured campus knowledge base and intelligent query matching. If an LLM API is available, it generates more natural responses; otherwise, it still works offline.  
+>   
+> This prototype can later be expanded with live timetables, room booking, maps, multilingual support, and admin dashboards.”
+
+## Future improvements
+
+Add these as “future scope” in your report or presentation:
+
+- Live timetable and classroom availability
+- Lab/computer booking system
+- Google Maps navigation
+- Voice input and speech output
+- Multilingual support
+- Admin panel to update events and notices
+- Login for students and staff
+- Notification system
+- Feedback rating for answers
+- Full RAG with PDFs, notices, and college website content
+
+Multilingual and RAG-based campus assistants are already being used to handle student queries across FAQ data and institutional documents, so these are credible future enhancements. [github](https://github.com/sizwinz/campus-assistant/blob/master/README.md)
+
+## Evaluation metrics
+
+For the prototype demo, measure:
+
+- Response accuracy on 20 sample questions
+- Average response time
+- Percentage of queries correctly categorized
+- Fallback rate for unsupported questions
+- User satisfaction from 5 demo users
+
+A simple target: **at least 85% correct answers** on the prepared question set and response time under **2 seconds** for local keyword search.
+
+## Final recommendation
+
+Tell Manus to build **CampusMate — AI Smart Campus Assistant** as a Streamlit chatbot with a JSON campus knowledge base, keyword/fuzzy search, quick-action chips, and optional LLM support. This gives you a polished, demo-friendly prototype that can realistically be completed and presented within 2 hours. [github](https://github.com/csmp2408/Smart-Campus-Assistant)
